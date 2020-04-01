@@ -1,7 +1,7 @@
 # py-isac
-Client for ISAC REST API
+Clients for ISAC REST API and ISAC NIXZD API.
 
-## How to install script on your host
+## How to install scripts on your host
 The easiest way is to clone the GitHub repository and build virtual environment for launching the script:
 ```
 cd <some directory on your choice>
@@ -12,7 +12,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## How to get general overview of script features
+## py_isac - How to get general overview of script features
 To launch the script, you have to activate the venv and run it as python script.
 For actions and options overview, use -h or --help option as follows:
 
@@ -42,3 +42,31 @@ Commands:
   senddoc   Send Document to other HealthCare Provider.
   survey    Patient Documentation Survey Client.
 ```
+
+## nixzd_client - How to get general overview of script features
+To launch the script, you have to activate the venv and run it as python script.
+For actions and options overview, use -h or --help option as follows:
+
+```
+(.venv) [raska@localhost py-isac]$ python nixzd_client.py --help
+Usage: nixzd_client.py [OPTIONS] COMMAND [ARGS]...
+
+  ICZ ISAC NIXZD Client - tools for calling services through the NIXZD REST
+  API.
+
+  This tools are intended for testing purposes only.
+
+Options:
+  -b, --base TEXT      Service Base URL  [default:
+                       http://localhost:8080/api/nixzd/v11]
+  -u, --user TEXT      User login  [default: amis]
+  -p, --password TEXT  User password  [default: amis]
+  --pretty             print pretty formatted output  [default: False]
+  -h, --help           Show this message and exit.
+
+Commands:
+  cda       Get patient HL7 CDA document.
+  exists    Service broadcast request for patient information availability...
+  sayhello  Service tests the NIXZD API availability.
+```
+

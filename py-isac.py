@@ -152,12 +152,14 @@ def handover(ctx, patoid, orgoid, docoid, bodytype, output):
         'username': ctx.obj['username'],
     }
     data = call_api(ctx.obj['base'] + '/handover.json', json=params, auth=(ctx.obj['user'], ctx.obj['password']))
+
     if output:
         data = json.loads(data)
         if 'body' in data:
-            output.write(base64.b64decode(data['body']))
+            body = base64.b64decode(data['body'])
+            output.write(body)
     else:
-        if ctx.obj['pretty']:
+        if ctx.obj['pretty'] and data:
             print(json.dumps(json.loads(data), indent=4))
         else:
             print(data)
