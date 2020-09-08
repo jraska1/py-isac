@@ -85,14 +85,14 @@ def exists(ctx, rc, purpose, subject, reqorgid):
 
 
 @cli.command()
-@click.option('--srcid', type=str, required=False, help="Source HealthCare Provider ID")
+@click.option('--srcid', type=str, required=True, help="Source HealthCare Provider ID")
 @click.option('--rc', type=str, required=True, help="Patient ID - rodne cislo")
 @click.option('--purpose', type=click.Choice(['EMERGENCY', 'TREATMENT', 'PATIENT'], case_sensitive=False), required=True, help="Purpose of use of the required information")
 @click.option('--subject', type=str, default="Trpaslik", help="Name or ID of the requesting persion or entity")
 @click.option('--reqorgid', type=str, default="Test HCP", help="Name or ID of the requesting HealthCare Provider")
 @click.option('--cdatype', type=click.Choice(['L1', 'L3'], case_sensitive=False), default='L3', help="Type of the HL7 CDA document")
 @click.option('--id', type=str, required=True, help="ID of the HL7 CDA document")
-@click.option('--oid', type=str, required=False, help="OID of the HL7 CDA document")
+@click.option('--oid', type=str, required=True, help="OID of the HL7 CDA document")
 @click.option('-o', '--output', type=click.File(mode='wb'), required=False, help="Write the Document Body to file")
 @click.pass_context
 def cda(ctx, srcid, rc, purpose, subject, reqorgid, cdatype, id, oid, output):
@@ -113,7 +113,7 @@ def cda(ctx, srcid, rc, purpose, subject, reqorgid, cdatype, id, oid, output):
     }
     data = call_api(ctx.obj['base'] + '/getPs.cda', params=params, auth=(ctx.obj['user'], ctx.obj['password']))
     if output:
-        output.write(data)
+        output.write(data.encode())
     else:
         if ctx.obj['pretty']:
             print(data)
