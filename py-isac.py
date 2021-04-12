@@ -72,14 +72,18 @@ def info(ctx):
 
 
 @cli.command()
-@click.option('--rc', type=str, required=True, help="Patient ID - rodne cislo")
+@click.option('--id', type=str, required=True, help="Patient ID - rodne cislo")
+@click.option('--firstname', type=str, required=False, help="Patient First Name")
+@click.option('--lastname', type=str, required=False, help="Patient Last Name")
 @click.pass_context
-def patsum(ctx, rc):
+def patsum(ctx, id, firstname, lastname):
     """
     Patient Emergency Information Summary Client.
     """
     params = {
-        'rc': rc,
+        'rc': id,
+        'firstname': firstname,
+        'lastname': lastname,
         'username': ctx.obj['username'],
     }
     data = call_api(ctx.obj['base'] + '/ec.json', params=params, auth=(ctx.obj['user'], ctx.obj['password']))
