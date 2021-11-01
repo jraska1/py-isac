@@ -104,6 +104,38 @@ def status(ctx):
 
 
 @cli.command()
+@click.pass_context
+def provider(ctx):
+    """
+    HealthCare Provider detail information as a source for editing.
+    """
+    params = {
+        'username': ctx.obj['username'],
+    }
+    data = call_api(ctx.obj['base'] + '/confedit/provider.json', params=params, auth=(ctx.obj['user'], ctx.obj['password']))
+    if ctx.obj['pretty']:
+        print(json.dumps(json.loads(data), indent=4))
+    else:
+        print(data)
+
+
+@cli.command()
+@click.pass_context
+def prodsys(ctx):
+    """
+    Production system detail information.
+    """
+    params = {
+        'username': ctx.obj['username'],
+    }
+    data = call_api(ctx.obj['base'] + '/prodsystem/get.json', params=params, auth=(ctx.obj['user'], ctx.obj['password']))
+    if ctx.obj['pretty']:
+        print(json.dumps(json.loads(data), indent=4))
+    else:
+        print(data)
+
+
+@cli.command()
 @click.option('--id', type=str, required=True, help="Patient ID - rodne cislo")
 @click.option('--firstname', type=str, required=False, help="Patient First Name")
 @click.option('--lastname', type=str, required=False, help="Patient Last Name")
