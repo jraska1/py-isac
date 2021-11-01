@@ -72,6 +72,38 @@ def info(ctx):
 
 
 @cli.command()
+@click.pass_context
+def config(ctx):
+    """
+    Communication Node Configuration information.
+    """
+    params = {
+        'username': ctx.obj['username'],
+    }
+    data = call_api(ctx.obj['base'] + '/nodeconfig.json', params=params, auth=(ctx.obj['user'], ctx.obj['password']))
+    if ctx.obj['pretty']:
+        print(json.dumps(json.loads(data), indent=4))
+    else:
+        print(data)
+
+
+@cli.command()
+@click.pass_context
+def status(ctx):
+    """
+    Communication Node Status information.
+    """
+    params = {
+        'username': ctx.obj['username'],
+    }
+    data = call_api(ctx.obj['base'] + '/nodestatus.json', params=params, auth=(ctx.obj['user'], ctx.obj['password']))
+    if ctx.obj['pretty']:
+        print(json.dumps(json.loads(data), indent=4))
+    else:
+        print(data)
+
+
+@cli.command()
 @click.option('--id', type=str, required=True, help="Patient ID - rodne cislo")
 @click.option('--firstname', type=str, required=False, help="Patient First Name")
 @click.option('--lastname', type=str, required=False, help="Patient Last Name")
