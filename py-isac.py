@@ -65,10 +65,7 @@ def info(ctx):
         'username': ctx.obj['username'],
     }
     data = call_api(ctx.obj['base'] + '/app.json', params=params, auth=(ctx.obj['user'], ctx.obj['password']))
-    if ctx.obj['pretty']:
-        print(json.dumps(json.loads(data), indent=4))
-    else:
-        print(data)
+    print(json.dumps(json.loads(data), indent=4) if data and ctx.obj['pretty'] else data)
 
 
 @cli.command()
@@ -81,10 +78,7 @@ def config(ctx):
         'username': ctx.obj['username'],
     }
     data = call_api(ctx.obj['base'] + '/nodeconfig.json', params=params, auth=(ctx.obj['user'], ctx.obj['password']))
-    if ctx.obj['pretty']:
-        print(json.dumps(json.loads(data), indent=4))
-    else:
-        print(data)
+    print(json.dumps(json.loads(data), indent=4) if data and ctx.obj['pretty'] else data)
 
 
 @cli.command()
@@ -97,10 +91,7 @@ def status(ctx):
         'username': ctx.obj['username'],
     }
     data = call_api(ctx.obj['base'] + '/nodestatus.json', params=params, auth=(ctx.obj['user'], ctx.obj['password']))
-    if ctx.obj['pretty']:
-        print(json.dumps(json.loads(data), indent=4))
-    else:
-        print(data)
+    print(json.dumps(json.loads(data), indent=4) if data and ctx.obj['pretty'] else data)
 
 
 @cli.command()
@@ -113,10 +104,7 @@ def provider(ctx):
         'username': ctx.obj['username'],
     }
     data = call_api(ctx.obj['base'] + '/confedit/provider.json', params=params, auth=(ctx.obj['user'], ctx.obj['password']))
-    if ctx.obj['pretty']:
-        print(json.dumps(json.loads(data), indent=4))
-    else:
-        print(data)
+    print(json.dumps(json.loads(data), indent=4) if data and ctx.obj['pretty'] else data)
 
 
 @cli.command()
@@ -128,11 +116,8 @@ def prodsys(ctx):
     params = {
         'username': ctx.obj['username'],
     }
-    data = call_api(ctx.obj['base'] + '/prodsystem/get.json', params=params, auth=(ctx.obj['user'], ctx.obj['password']))
-    if ctx.obj['pretty']:
-        print(json.dumps(json.loads(data), indent=4))
-    else:
-        print(data)
+    data = call_api(ctx.obj['base'] + '/prodsys/get.json', params=params, auth=(ctx.obj['user'], ctx.obj['password']))
+    print(json.dumps(json.loads(data), indent=4) if data and ctx.obj['pretty'] else data)
 
 
 @cli.command()
@@ -151,10 +136,7 @@ def patsum(ctx, id, firstname, lastname):
         'username': ctx.obj['username'],
     }
     data = call_api(ctx.obj['base'] + '/ec.json', params=params, auth=(ctx.obj['user'], ctx.obj['password']))
-    if ctx.obj['pretty']:
-        print(json.dumps(json.loads(data), indent=4))
-    else:
-        print(data)
+    print(json.dumps(json.loads(data), indent=4) if data and ctx.obj['pretty'] else data)
 
 
 @cli.command()
@@ -171,10 +153,7 @@ def docview(ctx, provoid, eventid):
         'username': ctx.obj['username'],
     }
     data = call_api(ctx.obj['base'] + '/DocumentView.json', params=params, auth=(ctx.obj['user'], ctx.obj['password']))
-    if ctx.obj['pretty']:
-        print(json.dumps(json.loads(data), indent=4))
-    else:
-        print(data)
+    print(json.dumps(json.loads(data), indent=4) if data and ctx.obj['pretty'] else data)
 
 
 @cli.command()
@@ -195,10 +174,7 @@ def survey(ctx, rc, lastname, fromdate, todate):
         'username': ctx.obj['username'],
     }
     data = call_api(ctx.obj['base'] + '/survey.json', json=params, auth=(ctx.obj['user'], ctx.obj['password']))
-    if ctx.obj['pretty']:
-        print(json.dumps(json.loads(data), indent=4))
-    else:
-        print(data)
+    print(json.dumps(json.loads(data), indent=4) if data and ctx.obj['pretty'] else data)
 
 
 @cli.command()
@@ -227,10 +203,7 @@ def handover(ctx, patoid, orgoid, docoid, bodytype, output):
             body = base64.b64decode(data['body'])
             output.write(body)
     else:
-        if ctx.obj['pretty'] and data:
-            print(json.dumps(json.loads(data), indent=4))
-        else:
-            print(data)
+        print(json.dumps(json.loads(data), indent=4) if data and ctx.obj['pretty'] else data)
 
 
 @cli.command()
@@ -246,10 +219,7 @@ def senddoc(ctx, contype, inputFile):
         'Content-Type': contype,
     }
     data = call_api(ctx.obj['base'] + '/msgstore/senddoc.json', params=params, headers=headers, auth=(ctx.obj['user'], ctx.obj['password']))
-    if ctx.obj['pretty']:
-        print(json.dumps(json.loads(data), indent=4))
-    else:
-        print(data)
+    print(json.dumps(json.loads(data), indent=4) if data and ctx.obj['pretty'] else data)
 
 
 @cli.command()
@@ -274,10 +244,24 @@ def bedfund(ctx):
         'username': ctx.obj['username'],
     }
     data = call_api(ctx.obj['base'] + '/beds.json', params=params, auth=(ctx.obj['user'], ctx.obj['password']))
-    if ctx.obj['pretty']:
-        print(json.dumps(json.loads(data), indent=4))
-    else:
-        print(data)
+    print(json.dumps(json.loads(data), indent=4) if data and ctx.obj['pretty'] else data)
+
+
+@cli.command()
+@click.option('--period', type=str, required=False, help="Date interval for records [dd.mm.yyyy - dd.mm.yyyy]")
+@click.option('--status', type=str, required=False, help="Record status to be selected, allowed values: A B C F P or combination")
+@click.pass_context
+def rescnotif(ctx):
+    """
+    Rescue Notifications Survey Client.
+    """
+    params = {
+        'username': ctx.obj['username'],
+        'period':   ctx.obj['period'],
+        'status':   ctx.obj['status'],
+    }
+    data = call_api(ctx.obj['base'] + '/rescnotif.json', params=params, auth=(ctx.obj['user'], ctx.obj['password']))
+    print(json.dumps(json.loads(data), indent=4) if data and ctx.obj['pretty'] else data)
 
 
 if __name__ == '__main__':
