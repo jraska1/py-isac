@@ -251,14 +251,14 @@ def bedfund(ctx):
 @click.option('--period', type=str, required=False, help="Date interval for records [dd.mm.yyyy - dd.mm.yyyy]")
 @click.option('--status', type=str, required=False, help="Record status to be selected, allowed values: A B C F P or combination")
 @click.pass_context
-def rescnotif(ctx):
+def rescnotif(ctx, period, status):
     """
     Rescue Notifications Survey Client.
     """
     params = {
+        'period':   period,
+        'status':   status,
         'username': ctx.obj['username'],
-        'period':   ctx.obj['period'],
-        'status':   ctx.obj['status'],
     }
     data = call_api(ctx.obj['base'] + '/rescnotif.json', params=params, auth=(ctx.obj['user'], ctx.obj['password']))
     print(json.dumps(json.loads(data), indent=4) if data and ctx.obj['pretty'] else data)
